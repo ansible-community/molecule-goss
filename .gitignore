@@ -24,7 +24,6 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
-pip-wheel-metadata
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -103,3 +102,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+pip-wheel-metadata
