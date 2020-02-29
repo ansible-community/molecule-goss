@@ -46,8 +46,6 @@ class Goss(Verifier):
 
         verifier:
           name: goss
-          lint:
-            name: yamllint
 
     The testing can be disabled by setting ``enabled`` to False.
 
@@ -101,7 +99,6 @@ class Goss(Verifier):
         :return: None
         """
         super(Goss, self).__init__(config)
-        self.default_linter = "yamllint"
         if config:
             self._tests = self._get_tests()
 
@@ -149,27 +146,15 @@ class Goss(Verifier):
 
     def schema(self):
         return {
-            'verifier': {
-                'type': 'dict',
-                'schema': {
-                    'name': {'type': 'string', 'allowed': ['goss']},
-                    'lint': {
-                        'type': 'dict',
-                        'schema': {'name': {'type': 'string', 'allowed': ['yamllint']}},
-                    },
-                    'options': {'keysrules': {'readonly': True}},
+            "verifier": {
+                "type": "dict",
+                "schema": {
+                    "name": {"type": "string", "allowed": ["goss"]},
+                    "options": {"keysrules": {"readonly": True}},
                 },
             }
         }
 
     def template_dir(self):
-        p = os.path.abspath(
-            os.path.join(
-                os.path.dirname(__file__),
-                "cookiecutter",
-                "scenario",
-                "verifier",
-                self.name,
-            )
-        )
+        p = os.path.abspath(os.path.join(os.path.dirname(__file__), "cookiecutter"))
         return p

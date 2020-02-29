@@ -1,10 +1,8 @@
 extends: default
 ignore: |
-  *.molecule/
-  molecule*/cookiecutter/
+  */cookiecutter/
+  .github/workflows/
   .tox
-  # HACK: https://github.com/pyupio/pyup/issues/346
-  .pyup.yml
 
 rules:
   braces:
@@ -13,4 +11,5 @@ rules:
   brackets:
     max-spaces-inside: 1
     level: error
+  document-start: disable
   line-length: disable
