@@ -22,7 +22,7 @@
         sha256sum: "{{ goss_sha256sum }}"
         mode: 0755
 
-    - name: Create Molecule directory for test files
+    - name: Create Molecule directory for test files  # noqa 208
       file:
         path: "{{ goss_test_directory }}"
         state: directory
@@ -46,7 +46,7 @@
         msg: "{{ test_files.files }}"
         verbosity: 3
 
-    - name: Copy Goss tests to remote
+    - name: Copy Goss tests to remote  # noqa 208
       copy:
         src: "{{ item.path }}"
         dest: "{{ goss_test_directory }}/{{ item.path | basename }}"
