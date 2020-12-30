@@ -1,0 +1,8 @@
+exclude_paths:
+  - .github
+  - molecule_inspec/cookiecutter
+warn_list:  # or 'skip_list' to silence them completely
+  - '204'  # Lines should be no longer than 160 chars
+  - '301'  # Commands should not change things if nothing needs doing
+  - '403'  # Package installs should not use latest
+  - experimental  # all rules tagged as experimental
