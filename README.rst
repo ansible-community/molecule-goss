@@ -6,8 +6,8 @@ Molecule Goss Plugin
    :target: https://badge.fury.io/py/molecule-goss
    :alt: PyPI Package
 
-.. image:: https://zuul-ci.org/gated.svg
-   :target: https://dashboard.zuul.ansible.com/t/ansible/builds?project=ansible-community/molecule-goss
+.. image:: https://github.com/ansible-community/molecule-goss/workflows/tox/badge.svg
+   :target: https://github.com/ansible-community/molecule-goss/actions
 
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
    :target: https://github.com/python/black
@@ -16,10 +16,6 @@ Molecule Goss Plugin
 .. image:: https://img.shields.io/badge/Code%20of%20Conduct-silver.svg
    :target: https://docs.ansible.com/ansible/latest/community/code_of_conduct.html
    :alt: Ansible Code of Conduct
-
-.. image:: https://img.shields.io/badge/Mailing%20lists-silver.svg
-   :target: https://docs.ansible.com/ansible/latest/community/communication.html#mailing-list-information
-   :alt: Ansible mailing lists
 
 .. image:: https://img.shields.io/badge/license-MIT-brightgreen.svg
    :target: LICENSE

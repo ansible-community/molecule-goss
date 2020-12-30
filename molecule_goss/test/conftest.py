@@ -1,29 +1,56 @@
-import contextlib  # noqa F401
+"""Pytest Fixtures."""
+import os
 
-import pytest  # noqa F401
+import pytest
+from molecule.test.conftest import random_string, temp_dir  # noqa
+from molecule import config, logger, util
+from molecule.test.conftest import change_dir_to
+from molecule.util import run_command
 
-from molecule.test.conftest import change_dir_to  # noqa F401
-from molecule.test.conftest import random_string  # noqa F401
-from molecule.test.conftest import run_command  # noqa F401
-from molecule.test.conftest import temp_dir  # noqa F401
-from molecule.test.unit.conftest import (  # noqa F401
-    _molecule_dependency_galaxy_section_data,
-)
-from molecule.test.unit.conftest import _molecule_driver_section_data  # noqa F401
-from molecule.test.unit.conftest import _molecule_platforms_section_data  # noqa F401
-from molecule.test.unit.conftest import _molecule_provisioner_section_data  # noqa F401
-from molecule.test.unit.conftest import _molecule_scenario_section_data  # noqa F401
-from molecule.test.unit.conftest import _molecule_verifier_section_data  # noqa F401
-from molecule.test.unit.conftest import config_instance  # noqa F401
-from molecule.test.unit.conftest import molecule_data  # noqa F401
-from molecule.test.unit.conftest import molecule_directory_fixture  # noqa F401
-from molecule.test.unit.conftest import (  # noqa F401
-    molecule_ephemeral_directory_fixture,
-)
-from molecule.test.unit.conftest import molecule_file_fixture  # noqa F401
-from molecule.test.unit.conftest import molecule_scenario_directory_fixture  # noqa F401
-from molecule.test.unit.conftest import patched_ansible_converge  # noqa F401
-from molecule.test.unit.conftest import patched_config_validate  # noqa F401
-from molecule.test.unit.conftest import patched_logger_error  # noqa F401
-from molecule.test.unit.conftest import patched_logger_info  # noqa F401
-from molecule.test.unit.conftest import patched_logger_success  # noqa F401
+LOG = logger.get_logger(__name__)
+
+
+@pytest.fixture
+def driver_name():
+    """Return name of the driver to be tested."""
+    return "docker"
+
+
+@pytest.fixture
+def molecule_project_directory():
+    return os.getcwd()
+
+
+@pytest.fixture
+def molecule_directory():
+    return config.molecule_directory(molecule_project_directory())
+
+
+@pytest.fixture
+def molecule_scenario_directory():
+    return os.path.join(molecule_directory(), "default")
+
+
+@pytest.fixture
+def molecule_file():
+    return get_molecule_file(molecule_scenario_directory())
+
+
+@pytest.fixture
+def get_molecule_file(path):
+    return config.molecule_file(path)
+
+
+@pytest.fixture
+def with_scenario(request, scenario_to_test, driver_name, scenario_name):
+    scenario_directory = os.path.join(
+        os.path.dirname(util.abs_path(__file__)), "scenarios", scenario_to_test
+    )
+
+    with change_dir_to(scenario_directory):
+        yield
+        if scenario_name:
+            msg = "CLEANUP: Destroying instances for all scenario(s)"
+            LOG.info(msg)
+            cmd = ["molecule", "destroy", "--driver-name", driver_name, "--all"]
+            assert run_command(cmd).returncode == 0

@@ -120,12 +120,12 @@ class Goss(Verifier):
     def execute(self):
         if not self.enabled:
             msg = "Skipping, verifier is disabled."
-            LOG.warn(msg)
+            LOG.warning(msg)
             return
 
         if not len(self._tests) > 0:
             msg = "Skipping, no tests found."
-            LOG.warn(msg)
+            LOG.warning(msg)
             return
 
         msg = "Executing Goss tests found in {}/...".format(self.directory)
@@ -134,7 +134,7 @@ class Goss(Verifier):
         self._config.provisioner.verify()
 
         msg = "Verifier completed successfully."
-        LOG.success(msg)
+        LOG.info(msg)
 
     def _get_tests(self):
         """
