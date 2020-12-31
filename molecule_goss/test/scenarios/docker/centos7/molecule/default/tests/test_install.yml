@@ -1,6 +1,7 @@
 ---
 file:
-  /etc/hosts:
+  /usr/local/bin/goss:
     exists: true
     owner: root
     group: root
+    mode: "0755"
