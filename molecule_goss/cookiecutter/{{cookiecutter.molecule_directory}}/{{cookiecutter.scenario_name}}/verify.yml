@@ -8,10 +8,10 @@
   hosts: all
   become: true
   vars:
-    goss_version: v0.3.7
+    goss_version: v0.3.13
     goss_arch: amd64
     goss_bin: /usr/local/bin/goss
-    goss_sha256sum: 357f5c7f2e7949b412bce44349cd32ab19eb3947255a8ac805f884cc2c326059.
+    goss_sha256sum: eb3522ff9682736ff61e2ad114de227de98debcf8a03ca66fcda3917577313e0.
     goss_test_directory: /tmp/molecule/goss
     goss_format: documentation
   tasks:
@@ -22,7 +22,7 @@
         sha256sum: "{{ goss_sha256sum }}"
         mode: 0755
 
-    - name: Create Molecule directory for test files
+    - name: Create Molecule directory for test files  # noqa 208
       file:
         path: "{{ goss_test_directory }}"
         state: directory
@@ -46,7 +46,7 @@
         msg: "{{ test_files.files }}"
         verbosity: 3
 
-    - name: Copy Goss tests to remote
+    - name: Copy Goss tests to remote  # noqa 208
       copy:
         src: "{{ item.path }}"
         dest: "{{ goss_test_directory }}/{{ item.path | basename }}"
@@ -54,11 +54,11 @@
         - "{{ test_files.files }}"
 
     - name: Register test files
-      shell: "ls {{ goss_test_directory }}/test_*.yml"
+      shell: "ls {{ goss_test_directory }}/test_*.yml"  # noqa 301
       register: test_files
 
     - name: Execute Goss tests
-      command: "{{ goss_bin }} -g {{ item }} validate --format {{ goss_format }}"
+      command: "{{ goss_bin }} -g {{ item }} validate --format {{ goss_format }}"  # noqa 301
       register: test_results
       with_items: "{{ test_files.stdout_lines }}"
       failed_when: false
