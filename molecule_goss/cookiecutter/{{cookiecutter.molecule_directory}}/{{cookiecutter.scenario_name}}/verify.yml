@@ -65,7 +65,12 @@
       register: test_files
 
     - name: Execute Goss tests
-      command: "{{ goss_bin }} {% if copy_defaults_vars %}--vars {{ goss_vars }} {% endif %}-g {{ item }} validate --format {{ goss_format }}"
+      command:
+        "{{ goss_bin }}
+         {% if copy_defaults_vars %}
+         --vars {{ goss_vars }}
+         {% endif %}
+         -g {{ item }} validate --format {{ goss_format }}"
       register: test_results
       with_items: "{{ test_files.stdout_lines }}"
       changed_when: false
