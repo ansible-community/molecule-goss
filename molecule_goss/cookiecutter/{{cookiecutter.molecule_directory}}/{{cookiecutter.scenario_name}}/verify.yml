@@ -49,6 +49,7 @@
       copy:
         src: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
         dest: "{{ goss_vars }}"
+        mode: 0644
       when: copy_defaults_vars
 
     - name: Copy Goss tests to remote
