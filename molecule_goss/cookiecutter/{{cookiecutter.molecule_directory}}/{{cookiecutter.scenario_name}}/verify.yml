@@ -10,6 +10,8 @@
     goss_sha256sum: 827e354b48f93bce933f5efcd1f00dc82569c42a179cf2d384b040d8a80bfbfb.
     goss_test_directory: /tmp/molecule/goss
     goss_format: documentation
+    goss_vars: "{{ goss_test_directory }}/vars"
+    copy_defaults_vars: true
   tasks:
     - name: Download and install Goss
       get_url:
@@ -43,6 +45,12 @@
         msg: "{{ test_files.files }}"
         verbosity: 3
 
+    - name: Copy defaults vars to goss vars
+      copy:
+        src: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
+        dest: "{{ goss_vars }}"
+      when: copy_defaults_vars
+
     - name: Copy Goss tests to remote
       copy:
         src: "{{ item.path }}"
@@ -57,7 +65,7 @@
       register: test_files
 
     - name: Execute Goss tests
-      command: "{{ goss_bin }} -g {{ item }} validate --format {{ goss_format }}"  # noqa 301
+      command: "{{ goss_bin }} {% if copy_defaults_vars %}--vars {{ goss_vars }} {% endif %}-g {{ item }} validate --format {{ goss_format }}"
       register: test_results
       with_items: "{{ test_files.stdout_lines }}"
       changed_when: false
