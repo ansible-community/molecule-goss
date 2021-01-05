@@ -11,7 +11,7 @@
     goss_test_directory: /tmp/molecule/goss
     goss_format: documentation
     goss_vars: "{{ goss_test_directory }}/vars"
-    copy_defaults_vars: true
+    copy_defaults_vars: false
   tasks:
     - name: Download and install Goss
       get_url:
