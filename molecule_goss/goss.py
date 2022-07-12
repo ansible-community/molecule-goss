@@ -99,8 +99,6 @@ class Goss(Verifier):
         :return: None
         """
         super(Goss, self).__init__(config)
-        if config:
-            self._tests = self._get_tests()
 
     @property
     def name(self):
@@ -117,11 +115,16 @@ class Goss(Verifier):
     def bake(self):
         pass
 
-    def execute(self):
+    def execute(self, action_args=None):
         if not self.enabled:
             msg = "Skipping, verifier is disabled."
             LOG.warning(msg)
             return
+
+        if self._config:
+            self._tests = self._get_tests(action_args)
+        else:
+            self._tests = []
 
         if not len(self._tests) > 0:
             msg = "Skipping, no tests found."
@@ -131,12 +134,12 @@ class Goss(Verifier):
         msg = "Executing Goss tests found in {}/...".format(self.directory)
         LOG.info(msg)
 
-        self._config.provisioner.verify()
+        self._config.provisioner.verify(action_args)
 
         msg = "Verifier completed successfully."
         LOG.info(msg)
 
-    def _get_tests(self):
+    def _get_tests(self, action_args=None):
         """
         Walk the verifier's directory for tests and returns a list.
 
